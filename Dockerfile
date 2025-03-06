@@ -1,15 +1,15 @@
-# Use an official Clojure image with OpenJDK 11 as a base
+# Use an official Clojure image with OpenJDK 11
 FROM clojure:openjdk-11
 
-# Switch to root user to install system packages
+# Switch to root to install system packages
 USER root
 
-# Install required system packages: git, curl, python3, and pip3
+# Install required packages: git, curl, python3, and pip3
 RUN apt-get update && \
     apt-get install -y git curl python3 python3-pip && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Jupyter Notebook using pip
+# Install Jupyter Notebook via pip
 RUN pip3 install notebook
 
 # Install Leiningen (needed to build Cljupyter)
@@ -23,15 +23,14 @@ RUN git clone https://github.com/clojupyter/clojupyter.git /opt/clojupyter && \
     cd /opt/clojupyter && \
     lein uberjar
 
-# Set the working directory to /home/jovyan (Binder expects notebooks here)
+# Set the working directory (Binder expects notebooks in /home/jovyan)
 WORKDIR /home/jovyan
 
 # (Optional) Copy your deps.edn if your project needs it
 COPY deps.edn /home/jovyan/deps.edn
 
-# Expose the default Jupyter Notebook port
+# Expose port 8888 for Jupyter
 EXPOSE 8888
 
-# Set the default command to launch Jupyter Notebook.
-# Binder will use this command to start your container.
-CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=''", "--NotebookApp.password=''"]
+# Start Jupyter Notebook with no token/password and allow all origins.
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token=", "--NotebookApp.password=", "--NotebookApp.allow_origin=*"]
