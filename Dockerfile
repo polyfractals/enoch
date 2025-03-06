@@ -1,5 +1,5 @@
 # Use an official Jupyter Notebook base image that is Binder-ready.
-FROM jupyter/base-notebook:python-3.9.16
+FROM jupyter/base-notebook:latest
 
 # Switch to root to install additional system packages
 USER root
