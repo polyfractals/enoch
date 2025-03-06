@@ -9,21 +9,21 @@ RUN apt-get update && \
     apt-get install -y clojure git curl && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Leiningen.
+# Install Leiningen (needed for building Cljupyter).
 RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/lein && \
     chmod +x lein && \
     mv lein /usr/local/bin/ && \
     lein --version
 
-# Increase Java heap size to help the build process.
+# Increase Java heap size to help with building the uberjar.
 ENV JAVA_OPTS="-Xmx2g"
 
-# Clone Cljupyter using a specific branch (adjust the branch/tag as needed) and build its uberjar.
-RUN git clone --depth=1 --branch stable https://github.com/clojupyter/clojupyter.git /opt/clojupyter && \
+# Clone Cljupyter using the master branch (since 'stable' does not exist) and build its uberjar.
+RUN git clone --depth=1 --branch master https://github.com/clojupyter/clojupyter.git /opt/clojupyter && \
     cd /opt/clojupyter && \
     lein uberjar
 
-# (Optional) Copy your deps.edn if needed.
+# (Optional) Copy your deps.edn if your project needs it.
 COPY deps.edn /home/jovyan/
 
 # Switch back to the notebook user.
