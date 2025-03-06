@@ -18,8 +18,7 @@ RUN curl -O https://raw.githubusercontent.com/technomancy/leiningen/stable/bin/l
 # Increase Java heap size to help with building the uberjar.
 ENV JAVA_OPTS="-Xmx2g"
 
-# Clone Cljupyter using the master branch (since 'stable' does not exist) and build its uberjar.
-RUN git clone --depth=1 --branch master https://github.com/clojupyter/clojupyter.git /opt/clojupyter && \
+RUN git clone --depth=1 --branch main https://github.com/clojupyter/clojupyter.git /opt/clojupyter && \
     cd /opt/clojupyter && \
     lein uberjar
 
