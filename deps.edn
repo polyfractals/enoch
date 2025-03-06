@@ -1,9 +1,0 @@
-{
-  :deps {
-    org.clojure/clojure {:mvn/version "1.10.3"}
-    org.clojure/data.csv {:mvn/version "1.0.0"}
-    ;; Replace the SHA below with a known commit hash from bibcal's repository.
-    bibcal {:git/url "https://github.com/johanthoren/bibcal.git"
-            :sha "e9bcb62d5a1d31ab2a5b7cfa1d571cfcc0347395"}
-  }
-}
